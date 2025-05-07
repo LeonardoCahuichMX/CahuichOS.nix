@@ -19,3 +19,8 @@ nix run .#deploy-thinkpad
 ## Estado
 
 ✅ Preparado para despliegue seguro, sin posibilidad de instalaciones ad-hoc por terminal.
+
+## Características de seguridad
+
+- Se desactivan comandos `nix-env`, `nix-shell` y `nix profile` para mantener la inmutabilidad.
+- Solo `root` puede instalar o cambiar software desde `configuration.nix`.
