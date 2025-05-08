@@ -9,5 +9,5 @@
     ../modules/flatpak.nix
   ];
 
-  networking.hostName = "thinkpad";
+  # networking.hostName = "thinkpad";
 }

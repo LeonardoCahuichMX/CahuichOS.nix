@@ -10,6 +10,7 @@
     distrobox
     podman
     boxbuddy
+    git
   ];
 
   virtualisation.podman = {
@@ -18,5 +19,5 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 
-  users.users.leo.extraGroups = [ "podman" ];
+  users.users.leonardocl.extraGroups = [ "podman" ];
 }

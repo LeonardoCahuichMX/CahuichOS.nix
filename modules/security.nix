@@ -5,5 +5,5 @@
   security.sudo.wheelNeedsPassword = true;
   services.openssh.enable = false;
 
-  nix.settings.trusted-users = [ "root" ];
+  # nix.settings.trusted-users = [ "root" ];
 }
