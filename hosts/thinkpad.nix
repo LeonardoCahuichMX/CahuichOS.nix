@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxPackages; # Esto ahora apunta al kernel 6.1
+  # boot.kernelPackages = pkgs.linuxPackages; # Esto ahora apunta al kernel 6.1
   imports = [
     ../modules/base.nix
     ../modules/users.nix

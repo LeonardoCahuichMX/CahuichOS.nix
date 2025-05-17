@@ -1,3 +1,3 @@
 [
-  (import ./kernel-6_1.nix)
+  # (import ./kernel-6_1.nix)
 ]
