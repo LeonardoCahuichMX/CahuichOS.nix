@@ -5,7 +5,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "CahuichOS"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -45,10 +45,41 @@
   };
 
   environment.systemPackages = [ pkgs.git ];
+
   # nixpkgs.config.allowUnfree = true;
 
   programs.command-not-found.enable = false;
-  environment.pathsToLink = [ "/share/zsh" ];
+  # environment.pathsToLink = [ "/share/zsh" ];
+
+  boot = {
+
+    plymouth = {
+      enable = true;
+      theme = "connect";
+      themePackages = with pkgs; [
+        # By default we would install all themes
+        (adi1090x-plymouth-themes.override {
+          selected_themes = [ "connect" ];
+        })
+      ];
+    };
+
+    # Enable "Silent boot"
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "udev.log_priority=3"
+      "rd.systemd.show_status=auto"
+    ];
+    # Hide the OS choice for bootloaders.
+    # It's still possible to open the bootloader list by pressing any key
+    # It will just not appear on screen unless a key is pressed
+    loader.timeout = 5;
+
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

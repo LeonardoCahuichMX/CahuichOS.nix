@@ -4,15 +4,15 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
-    impermanence.url = "github:nix-community/impermanence";
+    #impermanence.url = "github:nix-community/impermanence";
   };
 
-  outputs = { self, nixpkgs, flake-utils, impermanence, ... }:
+  outputs = { self, nixpkgs, flake-utils/*, impermanence*/, ... }:
     {
       nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          impermanence.nixosModules.impermanence
+          #impermanence.nixosModules.impermanence
           ./hardware-configuration/thinkpad-hw.nix
           ./hosts/thinkpad.nix
         ];
