@@ -43,7 +43,7 @@
     # Security
     trusted-users = [ "root" ];
   };
-  environment.pathsToLink = [ "/bin" ];
+  /*environment.pathsToLink = [ "/bin" ];
   environment.shellAliases = {
     nix-env = "echo '🚫 nix-env está deshabilitado'";
     nix-shell = "echo '🚫 nix-shell está deshabilitado'";
@@ -65,7 +65,7 @@
     }
 
     export -f nix-env nix-shell
-  '';
+  '';*/
   /*environment.shellAliases = {
     nix-env = "echo '🚫 nix-env está deshabilitado'";
     nix-shell = "echo '🚫 nix-shell está deshabilitado'";

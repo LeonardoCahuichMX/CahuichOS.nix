@@ -21,8 +21,6 @@
           overlays = import ./overlays; # <- Aquí se importa la lista
           config.allowUnfree = true;
         };
-        # Entorno de desarrollo por defecto
-        devShells.default = import ./devshells/default.nix { inherit pkgs; };
       };
 
       packages.x86_64-linux.deploy-thinkpad =
@@ -38,5 +36,16 @@
           nix flake lock
           sudo nixos-rebuild switch --flake .#thinkpad
         '';
+
+        /*# 👇 Agregar esta sección para devShells
+        devShells.x86_64-linux.default =
+          let
+            pkgs = import nixpkgs {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+              overlays = import ./overlays;
+            };
+          in
+          import ./devshells/default.nix { inherit pkgs; };*/
     };
 }
