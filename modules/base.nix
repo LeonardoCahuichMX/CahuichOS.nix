@@ -54,20 +54,6 @@
     nix-shell = "echo '🚫 nix-shell está deshabilitado. Usa nix develop.'";
   };
 
-  environment.etc."profile.d/block-nix-env.sh".text = ''
-    nix-env() {
-      echo "🚫 nix-env está deshabilitado (root incluido)"
-      return 1
-    }
-
-    nix-shell() {
-      echo "🚫 nix-shell está deshabilitado (usá nix develop)"
-      return 1
-    }
-
-    export -f nix-env nix-shell
-  '';
-
   # También podés usar environment.noXlibs para quitar herramientas en modo estricto
   # environment.noXlibs = true;
 
