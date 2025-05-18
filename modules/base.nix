@@ -40,22 +40,9 @@
     allowed-users = [ "root" ];
     auto-optimise-store = true;
 
-    # Esto impide que los usuarios usen nix-env y nix-shell
-    restrict-eval = true;
-    extra-sandbox-paths = []; # extra seguridad, limpia rutas accesibles
-
     # Security
     trusted-users = [ "root" ];
   };
-
-  # Opcional: quitar nix-env y nix-shell del entorno del usuario
-  environment.shellAliases = {
-    nix-env = "echo '🚫 nix-env está deshabilitado en este sistema inmutable.'";
-    nix-shell = "echo '🚫 nix-shell está deshabilitado. Usa nix develop.'";
-  };
-
-  # También podés usar environment.noXlibs para quitar herramientas en modo estricto
-  # environment.noXlibs = true;
 
   environment.systemPackages = [ pkgs.git ];
 
