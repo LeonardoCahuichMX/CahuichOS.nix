@@ -21,6 +21,8 @@
           overlays = import ./overlays; # <- Aquí se importa la lista
           config.allowUnfree = true;
         };
+        # Entorno de desarrollo por defecto
+        devShells.default = import ./devshells/default.nix { inherit pkgs; };
       };
 
       packages.x86_64-linux.deploy-thinkpad =

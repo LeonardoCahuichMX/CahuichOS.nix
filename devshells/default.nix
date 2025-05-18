@@ -2,9 +2,20 @@
 { pkgs }:
 
 pkgs.mkShell {
-  buildInputs = with pkgs; [ gcc make gdb ];
+  name = "dev-environment";
+
+  buildInputs = with pkgs; [
+    git
+    gcc
+    gnumake
+    gdb
+    strace
+    htop
+  ];
 
   shellHook = ''
-    echo "🛠️ Entorno de desarrollo listo"
+    echo "🛠️ Entorno de desarrollo CahuichOS activo"
+    echo "📁 Directorio actual: $PWD"
+    echo "💡 Usa 'exit' para salir del entorno"
   '';
 }

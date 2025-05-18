@@ -43,6 +43,46 @@
     # Security
     trusted-users = [ "root" ];
   };
+  environment.pathsToLink = [ "/bin" ];
+  environment.shellAliases = {
+    nix-env = "echo '🚫 nix-env está deshabilitado'";
+    nix-shell = "echo '🚫 nix-shell está deshabilitado'";
+  };
+  environment.extraSetup = ''
+    rm -f $out/bin/nix-env
+    rm -f $out/bin/nix-shell
+  '';
+
+  environment.etc."profile.d/block-nix-env.sh".text = ''
+    nix-env() {
+      echo "🚫 nix-env está deshabilitado (root incluido)"
+      return 1
+    }
+
+    nix-shell() {
+      echo "🚫 nix-shell está deshabilitado (usá nix develop)"
+      return 1
+    }
+
+    export -f nix-env nix-shell
+  '';
+  /*environment.shellAliases = {
+    nix-env = "echo '🚫 nix-env está deshabilitado'";
+    nix-shell = "echo '🚫 nix-shell está deshabilitado'";
+  };
+  environment.etc."profile.d/block-nix-env.sh".text = ''
+    nix-env() {
+      echo "🚫 nix-env está deshabilitado (root incluido)"
+      return 1
+    }
+
+    nix-shell() {
+      echo "🚫 nix-shell está deshabilitado (usá nix develop)"
+      return 1
+    }
+
+    export -f nix-env nix-shell
+  '';*/
 
   environment.systemPackages = [ pkgs.git ];
 

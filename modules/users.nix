@@ -11,7 +11,7 @@
 
   users.users.admin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "nixbld" ];
     description = "Admin";
     hashedPassword = "$6$RCffOWbMIwdeiorh$FTtR0QmVH/HrZ8hFQFo0NIv5dJcGjuPQJgiCDy9R1YjypHyCcXCW2gP0XbmqwS4F2mkFFLmbqwRHcQmMlspvD.";  # Generado con `mkpasswd -m sha-512`
     /*openssh.authorizedKeys.keys = [
