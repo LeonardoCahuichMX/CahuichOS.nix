@@ -37,13 +37,13 @@
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    allowed-users = [ "root" ];
+    # allowed-users = [ "root" "leonardocl" ];
     auto-optimise-store = true;
 
     # Security
     trusted-users = [ "root" ];
   };
-  /*environment.pathsToLink = [ "/bin" ];
+  environment.pathsToLink = [ "/bin" ];
   environment.shellAliases = {
     nix-env = "echo '🚫 nix-env está deshabilitado'";
     nix-shell = "echo '🚫 nix-shell está deshabilitado'";
@@ -65,7 +65,7 @@
     }
 
     export -f nix-env nix-shell
-  '';*/
+  '';
   /*environment.shellAliases = {
     nix-env = "echo '🚫 nix-env está deshabilitado'";
     nix-shell = "echo '🚫 nix-shell está deshabilitado'";
@@ -84,7 +84,7 @@
     export -f nix-env nix-shell
   '';*/
 
-  environment.systemPackages = [ pkgs.git ];
+  # environment.systemPackages = [ pkgs.git ];
 
   # nixpkgs.config.allowUnfree = true;
 

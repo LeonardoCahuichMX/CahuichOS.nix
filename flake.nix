@@ -7,45 +7,56 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }:
+    let
+      system = "x86_64-linux";
+      overlays = import ./overlays;
+      pkgs = import nixpkgs {
+        inherit system overlays;
+        config.allowUnfree = true;
+      };
+      # 👇 Importamos el script cve-scan como paquete
+      cveScanApp = pkgs.callPackage ./modules/scan-cves.nix { };
+    in
     {
       nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         modules = [
           ./hardware-configuration/thinkpad-hw.nix
           ./hosts/thinkpad.nix
+
+          # 👇 Añadimos el servicio systemd para escaneo de vulnerabilidades
+          ({ pkgs, ... }: {
+            systemd.services.cve-scan = {
+              description = "Escaneo de CVEs con base de datos pública";
+              wantedBy = [ "multi-user.target" ];
+              serviceConfig = {
+                ExecStart = "${cveScanApp}/bin/cve-scan";
+                Type = "oneshot";
+              };
+              startAt = "weekly"; # puedes usar daily/hourly si prefieres
+            };
+          })
         ];
         specialArgs = { inherit self; };
-        # 👇 Importar los overlays desde el archivo
-        pkgs = import nixpkgs {
-          system = "x86_64-linux";
-          overlays = import ./overlays; # <- Aquí se importa la lista
-          config.allowUnfree = true;
-        };
+        pkgs = pkgs;
       };
 
-      packages.x86_64-linux.deploy-thinkpad =
-        let
-          pkgs = import nixpkgs {
-            system = "x86_64-linux";
-            config.allowUnfree = true;
-            overlays = import ./overlays;
-          };
-        in
-        pkgs.writeShellScriptBin "deploy-thinkpad" ''
+      # 👇 Script de despliegue automático
+      packages.${system} = {
+        deploy-thinkpad = pkgs.writeShellScriptBin "deploy-thinkpad" ''
           echo "⚙️ Ejecutando despliegue para ThinkPad..."
           nix flake lock
           sudo nixos-rebuild switch --flake .#thinkpad
         '';
 
-        /*# 👇 Agregar esta sección para devShells
-        devShells.x86_64-linux.default =
-          let
-            pkgs = import nixpkgs {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-              overlays = import ./overlays;
-            };
-          in
-          import ./devshells/default.nix { inherit pkgs; };*/
+        # 👇 Exponemos el escáner como ejecutable desde el flake
+        cve-scan = cveScanApp;
+      };
+
+      # 👇 También como app invocable desde `nix run`
+      apps.${system}.cve-scan = {
+        type = "app";
+        program = "${cveScanApp}/bin/cve-scan";
+      };
     };
 }
