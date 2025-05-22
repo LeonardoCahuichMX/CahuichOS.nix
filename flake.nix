@@ -37,16 +37,7 @@
           sudo nixos-rebuild switch --flake .#thinkpad
         '';
 
-        nixosModules.cveScanModule = import ./modules/cve-scan-service.nix;
-
-        nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            self.nixosModules.cveScanModule
-          ];
-        };
-
-        /*# 👇 Agregar esta sección para devShells
+        # 👇 Agregar esta sección para devShells
         devShells.x86_64-linux.default =
           let
             pkgs = import nixpkgs {
@@ -55,6 +46,6 @@
               overlays = import ./overlays;
             };
           in
-          import ./devshells/default.nix { inherit pkgs; };*/
+          import ./devshells/default.nix { inherit pkgs; };
     };
 }

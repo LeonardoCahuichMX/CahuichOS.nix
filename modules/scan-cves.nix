@@ -17,15 +17,14 @@ writeShellApplication {
     echo "<html><head><title>Vulnerabilidades NixOS</title></head><body>" > $tmpfile
     echo "<h1>Resultados del escaneo CVE</h1>" >> $tmpfile
 
-    # Generamos lista de paquetes activos
     packages=$(nix-store --query --references /run/current-system/sw | xargs -n1 basename | sort -u)
 
     for name in $packages; do
-      vuln=$(nix eval --impure --raw "nixpkgs#${name}.meta.security.vulnerabilities" 2>/dev/null || echo "[]")
+      vuln=$(nix eval --impure --raw "nixpkgs#\$name.meta.security.vulnerabilities" 2>/dev/null || echo "[]")
 
       if [[ "$vuln" != "[]" ]]; then
-        echo "<h2>${name}</h2>" >> $tmpfile
-        echo "<pre>${vuln}</pre>" >> $tmpfile
+        echo "<h2>\$name</h2>" >> $tmpfile
+        echo "<pre>\$vuln</pre>" >> $tmpfile
       fi
     done
 
